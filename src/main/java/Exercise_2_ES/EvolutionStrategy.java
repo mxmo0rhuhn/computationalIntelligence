@@ -48,6 +48,11 @@ public class EvolutionStrategy implements EA {
     }
 
     @Override
+    public String getBest() {
+        return "???";
+    }
+
+    @Override
     public int getMaxIndividual() {
         return NUM_CHILDREN;
     }

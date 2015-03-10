@@ -111,5 +111,8 @@ public class VEGA implements EA{
         }
         return String.valueOf(binaryString);
     }
-
+    @Override
+    public String getBest() {
+        return "???";
+    }
 }

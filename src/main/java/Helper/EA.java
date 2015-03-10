@@ -12,6 +12,7 @@ public interface EA {
      * @return the current Generation
      */
     public int getGeneration();
+    public String getBest();
 
     /**
      * get maximum number of individuals in one generation

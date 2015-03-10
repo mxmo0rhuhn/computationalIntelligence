@@ -1,13 +1,13 @@
 package Helper;
 
 import javax.swing.*;
+import javax.swing.plaf.BorderUIResource;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
 import java.util.List;
 
-import Exercise_3_VEGA.VEGA;
+import Exercise_1_GA.GeneticAlgorithm;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -24,26 +24,30 @@ import org.jfree.util.ShapeUtilities;
  */
 public class Plotter extends JFrame {
 
+
     /**
      * The number of generations run by the step all
      */
     private static final int NUM_GENERATION = 100;
 
     private static final String title = "Computational Intelligence";
-    private JLabel label = new JLabel();
+    private JLabel individuals = new JLabel();
+    private JLabel topIndividual = new JLabel();
     private ChartPanel chartPanel;
     final DefaultXYDataset dataset = new DefaultXYDataset();
 
     private EA curEA;
+
+    public static void main(String[] args) {
+        new Plotter();
+    }
 
     public Plotter() {
         super(title);
         this.setTitle(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(0, 5));
-        curEA = new VEGA();
         chartPanel = createChart();
-        plot(curEA.firstGeneration());
         this.add(chartPanel, BorderLayout.CENTER);
         chartPanel.setHorizontalAxisTrace(true);
         chartPanel.setVerticalAxisTrace(true);
@@ -52,7 +56,16 @@ public class Plotter extends JFrame {
         panel.add(step());
         panel.add(stepall());
         this.add(panel, BorderLayout.SOUTH);
-        this.add(new JScrollPane(label), BorderLayout.EAST);
+
+        JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel2.add(new JLabel("Best: "));
+        panel2.add(topIndividual);
+        this.add(panel2 , BorderLayout.NORTH);
+
+        this.add(new JScrollPane(individuals), BorderLayout.EAST);
+
+        initiateVEGA();
+
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -72,7 +85,8 @@ public class Plotter extends JFrame {
         dataset.addSeries("Generation " + generation, series);
         dataset.removeSeries("Generation " + (generation - 1));
         text += "</html>";
-        label.setText(text);
+        individuals.setText(text);
+        topIndividual.setText(curEA.getBest());
         chartPanel.getChart().setTitle("Generation " + generation);
     }
     private JButton stepall() {
@@ -120,10 +134,24 @@ public class Plotter extends JFrame {
 
     private ChartPanel createChart() {
         JFreeChart jfreechart = ChartFactory.createScatterPlot(
-                "Scatter Plot Demo", "F", "G", dataset,
+                "Scatter Plot Demo", "X", "Y", dataset,
                 PlotOrientation.VERTICAL, false, false, false);
+
         Shape cross = ShapeUtilities.createDiagonalCross(3, 1);
         XYPlot xyPlot = (XYPlot) jfreechart.getPlot();
+        xyPlot.setDomainCrosshairVisible(true);
+        xyPlot.setRangeCrosshairVisible(true);
+        XYItemRenderer renderer = xyPlot.getRenderer();
+        renderer.setSeriesShape(0, cross);
+        renderer.setSeriesPaint(0, Color.red);
+        return new ChartPanel(jfreechart);
+    }
+
+    private void initiateVEGA(){
+        curEA = new GeneticAlgorithm();
+        plot(curEA.firstGeneration());
+
+        XYPlot xyPlot = (XYPlot) chartPanel.getChart().getPlot();
 
         ValueAxis gAxis = new NumberAxis("G");
         gAxis.setRange(0, curEA.getMaxG());
@@ -135,15 +163,5 @@ public class Plotter extends JFrame {
 
         xyPlot.setDomainAxis(fAxis);
         xyPlot.setRangeAxis(gAxis);
-        xyPlot.setDomainCrosshairVisible(true);
-        xyPlot.setRangeCrosshairVisible(true);
-        XYItemRenderer renderer = xyPlot.getRenderer();
-        renderer.setSeriesShape(0, cross);
-        renderer.setSeriesPaint(0, Color.red);
-        return new ChartPanel(jfreechart);
-    }
-
-    public static void main(String[] args) {
-        new Plotter();
     }
 }
