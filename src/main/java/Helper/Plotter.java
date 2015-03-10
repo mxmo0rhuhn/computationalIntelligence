@@ -42,9 +42,8 @@ public class Plotter extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(0, 5));
         curEA = new VEGA();
-        curEA.firstGeneration();
         chartPanel = createChart();
-        plot();
+        plot(curEA.firstGeneration());
         this.add(chartPanel, BorderLayout.CENTER);
         chartPanel.setHorizontalAxisTrace(true);
         chartPanel.setVerticalAxisTrace(true);
@@ -54,14 +53,12 @@ public class Plotter extends JFrame {
         panel.add(stepall());
         this.add(panel, BorderLayout.SOUTH);
         this.add(new JScrollPane(label), BorderLayout.EAST);
-        plot();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    public void plot() {
-        List<Individuum> individuums = curEA.runGeneration();
+    public void plot(List<Individuum> individuums) {
         int generation = curEA.getGeneration();
         String text= "<html>";
         int i = 0;
@@ -91,7 +88,7 @@ public class Plotter extends JFrame {
 
                                 @Override
                                 public void run() {
-                                    plot();
+                                    plot(curEA.runGeneration());
                                 }});
                             try {
                                 Thread.sleep(100);
@@ -113,7 +110,7 @@ public class Plotter extends JFrame {
 
                     @Override
                     public void run() {
-                        plot();
+                        plot(curEA.runGeneration());
                     }
                 });
             }

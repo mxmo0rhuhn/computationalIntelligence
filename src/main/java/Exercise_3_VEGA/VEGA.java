@@ -32,7 +32,7 @@ public class VEGA implements EA{
     @Override
     public List<Individuum> firstGeneration() {
         individuums = new ArrayList<Individuum>();
-        generation = 0;
+        generation = 1;
 
         for(int i = 0; i < NUM_INDIVIDUUM; i++) {
             individuums.add(newIndividuum());
