@@ -1,3 +1,5 @@
+package Exercise_3_VEGA;
+
 import java.util.*;
 
 /**
@@ -5,7 +7,7 @@ import java.util.*;
  */
 public class Selector {
 
-    public static List<Individuum> RankBasedSelectionF2(List<Individuum> in) {
+    public static List<VEGAIndividuum> RankBasedSelectionF2(List<VEGAIndividuum> in) {
 
         // sort results in ascending quality
         java.util.Collections.sort(in, new GComparator());
@@ -22,7 +24,7 @@ public class Selector {
         float rank = 0;
         float range = 0;
         float accumulated = 0;
-        for (Individuum i : in)  {
+        for (VEGAIndividuum i : in)  {
             rank ++;
             range = rank/sum;
             accumulated += range;
@@ -34,10 +36,10 @@ public class Selector {
 
         // choose random individuums in the ranges
         Random rnd = new Random();
-        List<Individuum> newList = new ArrayList<Individuum>();
+        List<VEGAIndividuum> newList = new ArrayList<VEGAIndividuum>();
         float curRnd;
         int index;
-        for(int i = 0; i < EA.BLOCK_SIZE; i++) {
+        for(int i = 0; i < VEGA.BLOCK_SIZE; i++) {
             curRnd = rnd.nextFloat();
             index = 0;
 
@@ -50,7 +52,7 @@ public class Selector {
         return newList;
     }
 
-    public static List<Individuum> RankBasedSelectionF1(List<Individuum> in) {
+    public static List<VEGAIndividuum> RankBasedSelectionF1(List<VEGAIndividuum> in) {
 
         // sort results in ascending quality
         java.util.Collections.sort(in, new FComparator());
@@ -67,7 +69,7 @@ public class Selector {
         float rank = 0;
         float range = 0;
         float accumulated = 0;
-        for (Individuum i : in)  {
+        for (VEGAIndividuum i : in)  {
             rank ++;
             range = rank/sum;
             accumulated += range;
@@ -79,10 +81,10 @@ public class Selector {
 
         // choose random individuums in the ranges
         Random rnd = new Random();
-        List<Individuum> newList = new ArrayList<Individuum>();
+        List<VEGAIndividuum> newList = new ArrayList<VEGAIndividuum>();
         float curRnd;
         int index;
-        for(int i = 0; i < EA.BLOCK_SIZE; i++) {
+        for(int i = 0; i < VEGA.BLOCK_SIZE; i++) {
             curRnd = rnd.nextFloat();
             index = 0;
 

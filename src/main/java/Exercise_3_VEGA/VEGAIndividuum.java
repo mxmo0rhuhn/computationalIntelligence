@@ -1,7 +1,11 @@
+package Exercise_3_VEGA;
+
+import Helper.Individuum;
+
 /**
  * Created by Max Schrimpf
  */
-public class Individuum {
+public class VEGAIndividuum implements Individuum {
 
     public static final int D_LEN = 5;
     public static final int D_MAX = 32;
@@ -20,25 +24,27 @@ public class Individuum {
 
         return Math.round(new Float(((Math.PI * Math.pow(D_MAX,2)) / 2) + Math.PI * D_MAX * H_MAX));
     }
+
     public static int getMaxG() {
         return Math.round(new Float((Math.PI * Math.pow(D_MAX, 2) * H_MAX) / 4));
     }
-    public Individuum(String individuum) {
+
+    public VEGAIndividuum(String individuum) {
         if(individuum.length() > D_LEN + H_LEN) {
             this.d = 0;
             this.h = 0;
 
             throw new IllegalArgumentException("invalid len: " + individuum.length() );
         } else {
-        this.d = getRealRepresentation(individuum.substring(0, Individuum.D_LEN));
-        this.h = getRealRepresentation(individuum.substring(Individuum.D_LEN, H_LEN+D_LEN));
+        this.d = getRealRepresentation(individuum.substring(0, VEGAIndividuum.D_LEN));
+        this.h = getRealRepresentation(individuum.substring(VEGAIndividuum.D_LEN, H_LEN+D_LEN));
         }
 
         this.f = new Float(((Math.PI * Math.pow(this.d,2)) / 2) + Math.PI * this.d * this.h);
         this.g = new Float((Math.PI * Math.pow(this.d,2) * this.h) / 4);
     }
 
-    public Individuum(String d, String h) {
+    public VEGAIndividuum(String d, String h) {
 
         if(d.length() > D_LEN || h.length() > H_LEN) {
             this.d = 0;
@@ -59,10 +65,10 @@ public class Individuum {
         return getBinaryRepresentation(d, D_LEN) + getBinaryRepresentation(h, H_LEN);
     }
 
+    @Override
     public String toExtendedString() {
         return  " f: " + this.f + " g: " + this.g + " d = " + this.d + " h = " + this.h;
     }
-
 
     public int getRealRepresentation(String f) {
         int intBits = Integer.parseInt(f, 2);
@@ -90,9 +96,12 @@ public class Individuum {
         return binary;
     }
 
+    @Override
     public float getGValue() {
         return g;
     }
+
+    @Override
     public float getFValue(){
         return f;
     }

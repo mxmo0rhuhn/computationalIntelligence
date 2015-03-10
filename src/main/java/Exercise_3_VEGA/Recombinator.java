@@ -1,3 +1,7 @@
+package Exercise_3_VEGA;
+
+import Helper.Individuum;
+
 import java.util.*;
 
 /**
@@ -26,14 +30,14 @@ public class Recombinator {
 
         List<Individuum> result;
         for(int i = 0; i < parentSet.size() ; i = i + 2 ) {
-            result = singlePointRecombination(parentSet.get(i),parentSet.get(i+1));
+            result = singlePointRecombination((VEGAIndividuum) parentSet.get(i),(VEGAIndividuum) parentSet.get(i+1));
             inList.add(result.get(0));
             inList.add(result.get(1));
         }
 
         return inList;
     }
-    public static List<Individuum> singlePointRecombination(Individuum p1, Individuum p2) {
+    public static List<Individuum> singlePointRecombination(VEGAIndividuum p1, VEGAIndividuum p2) {
 
         int maxNumChars = p1.getBinaryRepresentationLength();
         int pos =  Math.round(new Random().nextFloat() * maxNumChars);
@@ -44,12 +48,12 @@ public class Recombinator {
         newIndividuum2 += p1.toString().substring(pos, maxNumChars);
 
         List<Individuum> newOnes = new ArrayList<Individuum>();
-        newOnes.add(new Individuum(newIndividuum1));
-        newOnes.add(new Individuum(newIndividuum2));
+        newOnes.add(new VEGAIndividuum(newIndividuum1));
+        newOnes.add(new VEGAIndividuum(newIndividuum2));
         return newOnes;
     }
 
-    public static Individuum mutate(Individuum ind) {
+    public static Individuum mutate(VEGAIndividuum ind) {
 
         int maxNumChars = ind.getBinaryRepresentationLength();
         Random rnd =  new Random();
@@ -68,6 +72,6 @@ public class Recombinator {
                 newIndividuum += oldIndividuum.charAt(i);
             }
         }
-        return new Individuum(newIndividuum);
+        return (Individuum) new VEGAIndividuum(newIndividuum);
     }
 }

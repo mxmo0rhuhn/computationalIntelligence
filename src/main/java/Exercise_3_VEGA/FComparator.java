@@ -1,9 +1,11 @@
+package Exercise_3_VEGA;
+
 import java.util.Comparator;
 
 /**
  * Created by Max Schrimpf
  */
-public class GComparator implements Comparator<Individuum> {
+public class FComparator implements Comparator<VEGAIndividuum> {
 
     /**
      * return zero if both objects are equal
@@ -11,10 +13,10 @@ public class GComparator implements Comparator<Individuum> {
      * return positive if object is better than specified one
      */
     @Override
-    public int compare(Individuum o1, Individuum o2) {
-        if( o1.getGValue() < o2.getGValue()) {
+    public int compare(VEGAIndividuum o1, VEGAIndividuum o2) {
+        if( o1.getFValue() > o2.getFValue()) {
             return -1;
-        } else if( o1.getGValue() > o2.getGValue()) {
+        } else if( o1.getFValue() < o2.getFValue()) {
             return 1;
         }
         return 0;
