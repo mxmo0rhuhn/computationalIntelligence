@@ -5,9 +5,11 @@ import javax.swing.plaf.BorderUIResource;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import Exercise_1_GA.GeneticAlgorithm;
+import Exercise_3_VEGA.VEGA;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -35,6 +37,9 @@ public class Plotter extends JFrame {
     private JLabel topIndividual = new JLabel();
     private ChartPanel chartPanel;
     final DefaultXYDataset dataset = new DefaultXYDataset();
+    private boolean stopped;
+
+    private String currentSerie = null;
 
     private EA curEA;
 
@@ -64,12 +69,39 @@ public class Plotter extends JFrame {
 
         this.add(new JScrollPane(individuals), BorderLayout.EAST);
 
+        //Create the menu bar.
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menu = new JMenu("Algorithm");
+        menuBar.add(menu);
+
+        JMenuItem menuItem = new JMenuItem("Genetic Algorithm" );
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initiateGA();
+            }
+        });
+        menu.add(menuItem);
+
+        JMenuItem menuItem2 = new JMenuItem("VEGA" );
+        menuItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initiateVEGA();
+            }
+        });
+        menu.add(menuItem2);
+
+        this.setJMenuBar(menuBar);
+
         initiateVEGA();
 
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
+
 
     public void plot(List<Individuum> individuums) {
         int generation = curEA.getGeneration();
@@ -82,8 +114,15 @@ public class Plotter extends JFrame {
             i++;
             text += indi.toExtendedString() + "<br/>";
         }
-        dataset.addSeries("Generation " + generation, series);
-        dataset.removeSeries("Generation " + (generation - 1));
+
+        String newSeries = "Generation " + generation;
+
+        if(currentSerie != null) {
+            dataset.removeSeries(currentSerie);
+        }
+        dataset.addSeries(newSeries, series);
+        currentSerie = newSeries;
+
         text += "</html>";
         individuals.setText(text);
         topIndividual.setText(curEA.getBest());
@@ -97,7 +136,7 @@ public class Plotter extends JFrame {
 
                     @Override
                     public void run() {
-                        for (int i = 0; i < NUM_GENERATION; i++) {
+                        for (int i = 0; i < NUM_GENERATION && !Plotter.this.stopped; i++) {
                             SwingUtilities.invokeLater(new Runnable() {
 
                                 @Override
@@ -148,7 +187,8 @@ public class Plotter extends JFrame {
     }
 
     private void initiateVEGA(){
-        curEA = new GeneticAlgorithm();
+        stopped = true;
+        curEA = new VEGA();
         plot(curEA.firstGeneration());
 
         XYPlot xyPlot = (XYPlot) chartPanel.getChart().getPlot();
@@ -163,5 +203,26 @@ public class Plotter extends JFrame {
 
         xyPlot.setDomainAxis(fAxis);
         xyPlot.setRangeAxis(gAxis);
+        stopped = false;
+    }
+    private void initiateGA() {
+        stopped = true;
+
+        curEA = new GeneticAlgorithm();
+        plot(curEA.firstGeneration());
+
+        XYPlot xyPlot = (XYPlot) chartPanel.getChart().getPlot();
+
+        ValueAxis gAxis = new NumberAxis("G");
+        gAxis.setRange(0, curEA.getMaxG());
+        gAxis.setAutoRange(true);
+
+        ValueAxis fAxis = new NumberAxis("F");
+        fAxis.setRange(0, curEA.getMaxF());
+        fAxis.setAutoRange(true);
+
+        xyPlot.setDomainAxis(fAxis);
+        xyPlot.setRangeAxis(gAxis);
+        stopped = false;
     }
 }

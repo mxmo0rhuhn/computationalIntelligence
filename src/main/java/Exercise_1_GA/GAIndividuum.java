@@ -61,7 +61,7 @@ public class GAIndividuum implements Comparable, Individuum{
 
     @Override
     public String toExtendedString() {
-        return "f = " + f + " g = " + g + " d = " + d + "h = " + h ;
+        return "f = " + f + " g = " + g + " d = " + d + " h = " + h ;
     }
 
     public int getRealRepresentation(String f) {
