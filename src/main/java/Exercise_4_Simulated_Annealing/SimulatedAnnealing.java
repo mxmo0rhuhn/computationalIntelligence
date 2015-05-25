@@ -8,31 +8,53 @@ import java.util.Objects;
  * Created by Max Schrimpf
  */
 public class SimulatedAnnealing {
+    private static final float C = 0.8f;
     ArrayList<City> cities;
     private static final int NR_CITIES = 36;
+    private float temp = 3000;
 
     String[] route;
-    String next;
     int distanceFirst;
 
+    ArrayList<String[]> routes = new ArrayList<String[]>();
+    ArrayList<Integer> distances = new ArrayList<Integer>();
+
+    public static void main(String[] args) {
+
+        // Source Data
+        // nextNeighbour
+        // Annealing
+
+    }
     private void nextNeighbor(List<City> cities) {
         route = new String[NR_CITIES];
         distanceFirst = 0;
         int i = 0;
-        List<String> citiesCopy = new ArrayList<String>();
-        for (City city : cities) {
-            citiesCopy.add(city.toString());
-        }
+        City last = null;
+        City next = null;
+        City first = cities.get(0);
+        City cur = first;
 
-        for (City city : cities) {
-            next = city.getNearestCity(citiesCopy);
-            citiesCopy.remove(next);
-            distanceFirst = city.getDistance(next);
+        while (cities.size() > 1) {
+            cities.remove(cities.indexOf(cur));
+            next = cur.getNearestCity(cities);
+            route[i] = cur.toString();
+            distanceFirst = cur.getDistance(next);
             i++;
+            cur = next;
+
+            if (i==NR_CITIES) {
+                last = next;
+            }
         }
+        distanceFirst += last.getDistance(first);
+        route[i] = last.toString();
     }
 
-    private void innerLoop(){
+    private void simulatedAnnealing(String[] r){
 
+
+
+        temp = temp - C;
     }
 }
