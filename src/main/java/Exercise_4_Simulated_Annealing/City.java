@@ -21,24 +21,24 @@ public class City {
         return city;
     }
 
-    public int getDistance(String city) {
-        if(!distances.containsKey(city)) {
+    public int getDistance(City city) {
+        if(!distances.containsKey(city.toString())) {
             throw new RuntimeException("City " + this.city + " has no known distance to " + city);
         }
-        return distances.get(city);
+        return distances.get(city.toString());
     }
 
-    public String getNearestCity(List<String> cities) {
+    public City getNearestCity(List<City> cities) {
 
         int min = Integer.MAX_VALUE;
-        String result = null;
+        City result = null;
 
-        for (String city : cities) {
-            if(!distances.containsKey(city)) {
+        for (City city : cities) {
+            if(!distances.containsKey(city.toString())) {
                 throw new RuntimeException("City " + this.city + " has no known distance to " + city);
             }
 
-            if(!city.equals(this.city) && distances.get(city) < min) {
+            if(!city.toString().equals(this.city.toString()) && distances.get(city.toString()) < min) {
                 min = distances.get(city);
                 result = city;
             }

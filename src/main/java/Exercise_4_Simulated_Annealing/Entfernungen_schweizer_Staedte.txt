@@ -1,4 +1,4 @@
-Aarau;Andermatt;Basel;Bellinzona;Bern;Biel;Brig;Chiasso;Chur;Davos;Fribourg;Genf;Glarus;Interlaken;Kreuzlingen;Lausanne;Locarno;Lugano;Luzern;Martigny;Montreux;Neuchatel;Olten;St. Gallen;St. Moritz;Schaffhausen;Schwyz;Sion;Solothurn;Thun;Vaduz;Winterthur;Zermatt;Zuerich;Zug
+XX;Aarau;Andermatt;Basel;Bellinzona;Bern;Biel;Brig;Chiasso;Chur;Davos;Fribourg;Genf;Glarus;Interlaken;Kreuzlingen;Lausanne;Locarno;Lugano;Luzern;Martigny;Montreux;Neuchatel;Olten;St. Gallen;St. Moritz;Schaffhausen;Schwyz;Sion;Solothurn;Thun;Vaduz;Winterthur;Zermatt;Zuerich;Zug
 Aarau;0;
 Andermatt;135;0;
 Basel;65;168;0;
